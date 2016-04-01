@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>tadkim LAB</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+<div id="tooltip" class="hidden">
+    <p><strong>상세내용</strong></p>
+    <br>
+    <p><span id="freq"> </span>건</p>
+</div>
+
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+    //SVG 크기와 여백 설정
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+    var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.tsv("data/sample.tsv", function(error, data) {
+        data.forEach(function(d) {
+            d.value = +d.value;
+            d.freq = +d.freq;
+        });
+
+        //x척도, y척도 설정
+        var x = d3.scale.ordinal()
+                .domain(data.map(function(d) { return d.name; }))
+                .rangeRoundBands([0, width], .3);
+
+        var y = d3.scale.linear()
+                .domain([0, d3.max(data, function(d) { return d.value; })])
+                .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+        svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+        svg.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function(d) { return x(d.name); })
+                .attr("width", x.rangeBand())
+                .attr("y", function(d) { return y(d.value); })
+                .attr("height", function(d) { return height - y(d.value); })
+//                .attr("fill","#ff3333")
+                .on("mouseover", function(d) {
+
+                    d3.select(this)
+                            .attr("fill", "navy");
+
+                    var xPosition = parseFloat(d3.select(this).attr("x")) + 20;
+                    // var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + h / 2;
+                    var yPosition = parseFloat(d3.select(this).attr("y")) + 120;
+                    //Update the tooltip position and value
+                    d3.select("#tooltip")
+                            .style("left", xPosition + "px")
+                            .style("top", yPosition + "px")
+                            .style("fill", "white")
+                            .select("#freq")
+                            .text("누적빈도 : " + d.freq);
+
+                    //Show the tooltip
+                    d3.select("#tooltip").classed("hidden", false);
+                })
+                .on("mouseout", function() {
+                    d3.select(this)
+                            .attr("fill", "#ff3333");
+
+                    //Hide the tooltip
+                    d3.select("#tooltip").classed("hidden", true);
+                });
+
+        svg.selectAll(".text")
+                .data(data)
+                .enter().append("text")
+                .attr("class", "text")
+                .attr("x", function(d) { return x(d.name)+5; })
+                .attr("y", function(d) { return y(d.value)-5; })
+                .text(function(d) { return d.label;})
+                .attr("font-size","14px")
+                .attr("fill","#ff3333")
+                .attr("text-anchor","start");
+    });
+</script>
+</body>
+</html>

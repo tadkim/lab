@@ -1,0 +1,110 @@
+$tooltip_bg:black;
+$tooltip_text:white;
+$axis_fill:#FF3333;
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url(http://fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+
+
+@mixin font_jeju_hallasan($size:14px, $weight:100, $letter:-1px){
+  font-family: 'Jeju Hallasan', cursive;
+  font-size:$size;
+  font-weight:$weight;
+  letter-spacing:$letter;
+}
+
+@mixin font_notosans($size:14px, $weight:100, $letter:-1px){
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size:$size;
+  font-weight:$weight;
+  letter-spacing:$letter;
+}
+
+@mixin border-radius($radius:10px){
+  -webkit-border-radius:$radius;
+  -moz-border-radius: $radius;
+  border-radius:$radius;
+}
+
+@mixin tooltip($width:150px, $height:auto, $padding:10px, $bgColor:$tooltip_bg){
+  position:absolute;
+  width:$width;
+  height:$height;
+
+  padding:$padding;
+  background-color:$tooltip_bg;
+  pointer-events: none;
+}
+
+@mixin theme_black($color_svg:#000, $color_bar:aqua){
+  background-color:$color_svg;
+  .axis{
+    fill:$color_bar;
+    font-size:10px;
+
+    path,
+    line{
+      fill: none;
+      stroke: none;
+      opacity:0.2;
+      shape-rendering: crispEdges;
+    }
+  }
+  rect{
+    fill:$color_bar;
+  }
+}
+
+svg{
+  @include theme_black;
+}
+
+
+
+/*
+.axis {
+  font-size: 10px;
+  font-family: sans-serif;
+
+  fill:#ff3333;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: none;
+  opacity:0.2;
+  shape-rendering: crispEdges;
+}
+
+*/
+
+#tooltip{
+  /*@include tooltip(width, height, margin, color);*/
+  @include font_jeju_hallasan;
+  @include tooltip;
+  @include border-radius;
+  .hidden{ display:none; }
+  p{
+    margin:0;
+    color:$tooltip_text;
+    font-size:12px;
+    line-height:20px;
+  }
+}
+/*
+#tooltip {
+  position: absolute;
+  width: 150px;
+  height: auto;
+  padding: 10px;
+  background-color: black;
+  pointer-events: none;
+}
+#tooltip.hidden { display: none; }
+#tooltip p {
+  margin: 0;
+  color:white;
+  font-size: 12px;
+  line-height: 20px;
+}
+*/
