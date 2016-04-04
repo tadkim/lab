@@ -1,17 +1,43 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>tadkim LAB</title>
+    <meta charset="UTF-8"/>
+    <title>lab d3 tooltip using sass.</title>
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="../../hilight/monokai-sublime.css"/>
 </head>
-
 <body>
+
+
+<!-- MyBar Markup for TEST -->
 <div id="tooltip" class="hidden">
     <p><strong>상세내용</strong></p>
     <br>
     <p><span id="freq"> </span>건</p>
 </div>
+
+
+<!-- NYT Markup for TEST -->
+<div id="tooltip_nyt" class="g-tooltip">
+    <div class="g-row g-party-d">
+        <div class="g-swatch"></div>
+        <div class="g-name">김태경</div>
+        <div class="g-votes">
+            <span class="g-votes-count">120</span> votes
+        </div>
+        <div class="g-percent">15.5%</div>
+    </div>
+
+    <div class="g-row g-party-r">
+        <div class="g-swatch"></div>
+        <div class="g-name">정유미</div>
+        <div class="g-votes"><span class="g-votes-count">636</span> votes</div>
+        <div class="g-percent">82.1%</div>
+    </div>
+</div>
+
+
+
 
 <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
@@ -59,7 +85,7 @@
                 .attr("width", x.rangeBand())
                 .attr("y", function(d) { return y(d.value); })
                 .attr("height", function(d) { return height - y(d.value); })
-//                .attr("fill","#ff3333")
+                //                .attr("fill","#ff3333")
                 .on("mouseover", function(d) {
 
                     d3.select(this)
@@ -69,15 +95,19 @@
                     // var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + h / 2;
                     var yPosition = parseFloat(d3.select(this).attr("y")) + 120;
                     //Update the tooltip position and value
-                    d3.select("#tooltip")
+//                    d3.select("#tooltip")
+                    d3.select("#tooltip_nyt")
                             .style("left", xPosition + "px")
                             .style("top", yPosition + "px")
                             .style("fill", "white")
-                            .select("#freq")
-                            .text("누적빈도 : " + d.freq);
+//                            .select("#freq")
+                            .select(".g-percent")
+                            .text("누적빈도 : " + d.freq)
+                            .select(".g-votes-countes")
+                            .text(d.freq +"votes");
 
                     //Show the tooltip
-                    d3.select("#tooltip").classed("hidden", false);
+                    d3.select("#tooltip_nyt").classed("hidden", false);
                 })
                 .on("mouseout", function() {
                     d3.select(this)
