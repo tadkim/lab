@@ -2,8 +2,7 @@
 /* load webfont from google cdn */
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
-//@import "style";  /* load another css file. (확장자 없이 파일 명만 따옴표로 감싼다.) */
-
+@import "style";  /* load another css file. (확장자 없이 파일 명만 따옴표로 감싼다.) */
 /* 예제파일 스타일 속성 */
 h1, h2, h3, h4, h5, h6, p {
   font-family: 'Noto Sans KR', sans-serif;
