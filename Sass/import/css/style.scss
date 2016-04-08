@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+$white:hsl(0, 0, 100%);
+$color_bg:hsl(328, 0%, 17%);
+$color_point:hsl(320, 100%, 50%);
+
+
+body{
+  background-color:$color_bg;
+  font-size:14px;
+  letter-spacing:-1px;
+  color:$white;
+}
+
+h1{
+  color:$color_point;
+}
+h2, h3, h4 {
+  color:$white;
+  letter-spacing:-1px;
+}
